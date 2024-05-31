@@ -1,9 +1,14 @@
 import requests
+from pathlib import Path
+import os
 
 
 def download_image(url, file_name):
+    dir_name = './images'
+    Path(dir_name).mkdir(parents=True, exist_ok=True)
+    file_path = os.path.join(dir_name, file_name)
     response = requests.get(url)
-    with open(file_name, 'wb') as file:
+    with open(file_path, 'wb') as file:
         file.write(response.content)
 
 

@@ -18,13 +18,15 @@ def download_image(url, file_name, dir_name):
 
 
 def main():
-    image_url = 'https://upload.wikimedia.org/wikipedia/commons/3/3f/HST-SM4.jpeg'
-    file_name = 'image.jpg'
+    # image_url = 'https://upload.wikimedia.org/wikipedia/commons/3/3f/HST-SM4.jpeg'
+
     dir_name = './images'
 
-    # download_image(url=image_url, file_name=file_name, dir_name=dir_name)
-
-    print(get_spacex_links('5eb87d47ffd86e000604b38a'))
+    spacex_links = get_spacex_links('5eb87d47ffd86e000604b38a')
+    for link_number, link in enumerate(spacex_links):
+        file_name = 'spacex_image_' + str(link_number) + '.jpg'
+        download_image(link, file_name, dir_name)
+        print( link_number, link)
 
 
 if __name__ == '__main__':

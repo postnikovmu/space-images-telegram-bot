@@ -1,5 +1,7 @@
 import requests
 from pathlib import Path
+from urllib.parse import urlsplit, unquote
+from os.path import split, splitext
 import os
 
 
@@ -27,8 +29,19 @@ def fetch_spacex_last_launch(launch_id='latest'):
         print( link_number, link)
 
 
+def get_link_image_extension(link):
+    splitted_result = urlsplit(link)
+    unquoted_result = unquote(splitted_result.path)
+    extension = splitext(split(unquoted_result)[-1])[-1]
+    return extension
+
+
 def main():
-    fetch_spacex_last_launch('5eb87d47ffd86e000604b38a')
+    # fetch_spacex_last_launch('5eb87d47ffd86e000604b38a')
+    nasa_link = "https://example.com/txt/hello%20world.txt?v=9#python"
+    # nasa_link = "https://apod.nasa.gov/apod/image/2406/LionNeb_Badr_960.jpg"
+    extension = get_link_image_extension(nasa_link)
+    print(extension)
 
 
 if __name__ == '__main__':

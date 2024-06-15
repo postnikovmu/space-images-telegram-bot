@@ -13,11 +13,17 @@ def get_spacex_links(launch_id='latest'):
     return response.json()['links']['flickr']['original']
 
 
-def download_image(url, file_name, dir_name, extension='.jpg'):
+def download_image(url, file_name, dir_name, extension='.jpg', token=''):
     full_file_name = file_name + extension
     Path(dir_name).mkdir(parents=True, exist_ok=True)
     file_path = os.path.join(dir_name, full_file_name)
-    response = requests.get(url)
+    if token:
+        params = {
+            'api_key': token,
+        }
+        response = requests.get(url, params=params)
+    else:
+        response = requests.get(url)
     response.raise_for_status()
     with open(file_path, 'wb') as file:
         file.write(response.content)
@@ -82,7 +88,10 @@ def fetch_nasa_epic_images(token, date):
         nasa_link = f"https://api.nasa.gov/EPIC/archive/natural/{str_image_date}/png/{image_name}.png"
         nasa_links.append(nasa_link)
 
-    return None
+    for link_number, link in enumerate(nasa_links):
+        file_name = 'nasa_epic_image_' + str(link_number)
+        download_image(link, file_name, './images', '.png', token=token)
+        print(link_number, link)
 
 
 def main():

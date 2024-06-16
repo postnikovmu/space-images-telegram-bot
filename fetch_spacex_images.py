@@ -1,5 +1,6 @@
 import requests
 from helpers import download_image, get_nasa_token
+import argparse
 
 
 def get_spacex_links(launch_id='latest'):
@@ -16,6 +17,14 @@ def fetch_spacex_last_launch(launch_id='latest'):
         print(link_number, link)
 
 
+def main():
+    parser = argparse.ArgumentParser(description="downloads images to '.images' folder")
+
+    parser.add_argument("id", nargs='?', default='latest', help='id of specific launch from SpaceX' )
+    args = parser.parse_args()
+
+    fetch_spacex_last_launch(args.id)  # Example '5eb87d47ffd86e000604b38a'
+
+
 if __name__ == '__main__':
-    nasa_token = get_nasa_token()
-    fetch_spacex_last_launch('5eb87d47ffd86e000604b38a')
+    main()

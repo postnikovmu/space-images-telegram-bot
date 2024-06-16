@@ -1,6 +1,7 @@
 import requests
 import datetime
 from helpers import download_image, get_nasa_token
+import argparse
 
 
 def fetch_nasa_epic_images(token, date):
@@ -26,7 +27,18 @@ def fetch_nasa_epic_images(token, date):
         print(link_number, link)
 
 
-if __name__ == '__main__':
+def main():
+    parser = argparse.ArgumentParser(description="downloads images to '.images' folder")
+
+    parser.add_argument("date", nargs='?', default='', help="pass the argument (YYYY-MM-DD) to download photos "
+                                                            "for specific date from NASA Epic")
+    args = parser.parse_args()
+
     nasa_token = get_nasa_token()
-    fetch_nasa_epic_images(token=nasa_token, date='2019-05-30')
+    fetch_nasa_epic_images(token=nasa_token, date=args.date)  # Example date='2019-05-30'
+
+
+if __name__ == '__main__':
+    main()
+
 

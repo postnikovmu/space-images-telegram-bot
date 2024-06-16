@@ -1,5 +1,6 @@
 import requests
 from helpers import download_image, get_nasa_token, get_link_image_extension
+import argparse
 
 
 def fetch_nasa_images(token, count):
@@ -23,6 +24,15 @@ def fetch_nasa_images(token, count):
         print(link_number, link)
 
 
-if __name__ == '__main__':
+def main():
+    parser = argparse.ArgumentParser(description="downloads images to '.images' folder")
+
+    parser.add_argument("count", nargs='?', default=0, help="pass the count to download photos from NASA")
+    args = parser.parse_args()
+
     nasa_token = get_nasa_token()
-    fetch_nasa_images(count=2, token=nasa_token)
+    fetch_nasa_images(token=nasa_token, count=args.count)  # Example count=2
+
+
+if __name__ == '__main__':
+    main()

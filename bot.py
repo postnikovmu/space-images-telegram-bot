@@ -1,15 +1,18 @@
 import telegram
 import os
+import time
+import random
 from dotenv import load_dotenv
 from helpers import get_files_list
 
 
-def get_bot_and_chat():
+def get_settings():
     load_dotenv()
     token = os.environ['TG_BOT_TOKEN']
     chat_id = os.environ['TG_CHANNEL_ID']
+    period = float(os.environ.get('POST_PERIOD', '4'))
     bot = telegram.Bot(token=token)
-    return bot, chat_id
+    return bot, chat_id, period
 
 
 def send_message(bot, chat_id, text):
@@ -21,12 +24,20 @@ def send_file(bot, chat_id, file_name):
         bot.send_document(chat_id=chat_id, document=file_to_send)
 
 
+def send_all_files(bot, chat_id, files_list, period):
+    for file_name in files_list:
+        send_file(bot, chat_id, file_name)
+        time.sleep(period)
+
+
 def main():
-    bot, chat_id = get_bot_and_chat()
-    # send_message(bot, chat_id, 'Hello')
+    bot, chat_id, period = get_settings()
     files_list = get_files_list('./images')
     if files_list:
-        send_file(bot, chat_id, files_list[0])
+        send_all_files(bot, chat_id, files_list, period)
+        while True:
+            random.shuffle(files_list)
+            send_all_files(bot, chat_id, files_list, period)
 
 
 if __name__ == '__main__':

@@ -1,4 +1,5 @@
 import telegram
+import argparse
 import os
 import time
 import random
@@ -31,7 +32,14 @@ def send_all_files(bot, chat_id, files_list, period):
 
 
 def main():
-    bot, chat_id, period = get_settings()
+    bot, chat_id, default_period = get_settings()
+
+    parser = argparse.ArgumentParser(description='posts images from "image" folder to telegram channel')
+    parser.add_argument("period", nargs='?', type=float, default=default_period,
+                        help='Period of photo posting, hours (positive float number). Default = 4h.')
+    args = parser.parse_args()
+    period = float(args.period) * 3600
+
     files_list = get_files_list('./images')
     if files_list:
         send_all_files(bot, chat_id, files_list, period)

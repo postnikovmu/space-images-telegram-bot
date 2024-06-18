@@ -33,3 +33,11 @@ def get_nasa_token():
     load_dotenv()
     token = os.environ['NASA_TOKEN']
     return token
+
+
+def get_files_list(folder):
+    files_list = []
+    for root, dirs, files in os.walk(folder):
+        for file in files:
+            files_list.append(os.path.join(root, file))
+    return files_list

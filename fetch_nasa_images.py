@@ -3,7 +3,7 @@ from helpers import download_image, get_nasa_token, get_link_image_extension
 import argparse
 
 
-def fetch_nasa_images(token, count):
+def get_nasa_links(token, count):
     params = {
         'api_key': token,
     }
@@ -15,12 +15,19 @@ def fetch_nasa_images(token, count):
     nasa_links = []
     if count:
         for row in response_data:
-            nasa_links.append(row['url'])
+            if row['media_type'] == 'image':
+                nasa_links.append(row['url'])
     else:
-        nasa_links.append(response_data['url'])
+        if response_data['media_type'] == 'image':
+            nasa_links.append(response_data['url'])
+    return nasa_links
+
+
+def fetch_nasa_images(token, count):
+    nasa_links = get_nasa_links(token, count)
     for link_number, link in enumerate(nasa_links):
-        file_name = 'nasa_image_' + str(link_number)
-        download_image(link, file_name, './images', get_link_image_extension(link))
+        file_name = f'nasa_image_{str(link_number)}'
+        download_image(link, file_name, 'images', get_link_image_extension(link))
         print(link_number, link)
 
 

@@ -1,5 +1,5 @@
 import requests
-from helpers import download_image, get_nasa_token
+from helpers import download_image
 import argparse
 
 
@@ -12,15 +12,15 @@ def get_spacex_links(launch_id='latest'):
 def fetch_spacex_last_launch(launch_id='latest'):
     spacex_links = get_spacex_links(launch_id)
     for link_number, link in enumerate(spacex_links):
-        file_name = 'spacex_image_' + str(link_number)
-        download_image(link, file_name, './images', '.jpg')
+        file_name = f'spacex_image_{str(link_number)}'
+        download_image(link, file_name, 'images', '.jpg')
         print(link_number, link)
 
 
 def main():
     parser = argparse.ArgumentParser(description="downloads images to '.images' folder")
 
-    parser.add_argument("id", nargs='?', default='latest', help='id of specific launch from SpaceX' )
+    parser.add_argument("id", nargs='?', default='latest', help='id of specific launch from SpaceX')
     args = parser.parse_args()
 
     fetch_spacex_last_launch(args.id)  # Example '5eb87d47ffd86e000604b38a'

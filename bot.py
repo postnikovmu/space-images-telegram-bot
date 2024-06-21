@@ -5,6 +5,8 @@ import time
 import random
 from dotenv import load_dotenv
 from helpers import get_files_list
+import logging
+import telegram.error as tg_error
 
 
 def get_settings():
@@ -38,14 +40,21 @@ def main():
     parser.add_argument("period", nargs='?', type=float, default=default_period,
                         help='Period of photo posting, hours (positive float number). Default = 4h.')
     args = parser.parse_args()
-    period = float(args.period) * 3600
+    period = args.period * 3600
 
-    files_list = get_files_list('./images')
-    if files_list:
-        send_all_files(bot, chat_id, files_list, period)
+    files = get_files_list('images')
+    if files:
+        send_all_files(bot, chat_id, files, period)
         while True:
-            random.shuffle(files_list)
-            send_all_files(bot, chat_id, files_list, period)
+            try:
+                random.shuffle(files)
+                send_all_files(bot, chat_id, files, period)
+            except tg_error.NetworkError as e:
+                logging.info('There was no internet connection')
+                time.sleep(2)
+    else:
+        logging.error('The directory with images is empty')
+        exit(1)
 
 
 if __name__ == '__main__':

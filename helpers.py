@@ -6,7 +6,7 @@ import os
 from dotenv import load_dotenv
 
 
-def download_image(url, file_name, dir_name, extension='.jpg', token=''):
+def download_image(url, file_name, dir_name, extension='.jpg', token=None):
     full_file_name = file_name + extension
     Path(dir_name).mkdir(parents=True, exist_ok=True)
     file_path = os.path.join(dir_name, full_file_name)
@@ -36,8 +36,8 @@ def get_nasa_token():
 
 
 def get_files_list(folder):
-    files_list = []
+    files = []
     for root, dirs, files in os.walk(folder):
         for file in files:
-            files_list.append(os.path.join(root, file))
-    return files_list
+            files.append(os.path.join(root, file))
+    return files

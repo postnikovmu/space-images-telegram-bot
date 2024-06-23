@@ -18,10 +18,6 @@ def get_settings():
     return bot, chat_id, period
 
 
-def send_message(bot, chat_id, text):
-    bot.send_message(text=text, chat_id=chat_id)
-
-
 def send_file(bot, chat_id, file_name):
     with open(file_name, 'rb') as file_to_send:
         bot.send_document(chat_id=chat_id, document=file_to_send)

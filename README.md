@@ -7,7 +7,7 @@ Run appropriate script
 python fetch_spacex_images.py
 python fetch_nasa_images.py
 python fetch_nasa_epic_images.py '2019-05-30'
-python images_period_posting.py 0.0001
+python bot.py 0.0001
 ```
 
 ### Prerequisites
@@ -41,7 +41,7 @@ pip install -r requirements.txt
    from https://epic.gsfc.nasa.gov/
    You may pass the argument date (YYYY-MM-DD) to download photos from specific date.
 
-4. "images_period_posting.py" posts images from ".images" folder to "TG_CHANNEL_ID"
+4. "bot.py" posts images from ".images" folder to "TG_CHANNEL_ID"
    telegram channel every "POST_PERIOD" hours. When all images were posted, it starts posting the same
    images again in random sequence.
    You may change the period of posting by passing an argument "period" in hours.

@@ -43,17 +43,17 @@ def main():
     period = args.period * 3600
 
     files = get_files_list('images')
-    if files:
-        while True:
-            try:
-                send_all_files(bot, chat_id, files, period)
-                random.shuffle(files)
-            except tg_error.NetworkError as e:
-                logging.info('There was no internet connection')
-                time.sleep(2)
-    else:
+    if not files:
         logging.error('The directory with images is empty')
         exit(1)
+
+    while True:
+        try:
+            send_all_files(bot, chat_id, files, period)
+            random.shuffle(files)
+        except tg_error.NetworkError as e:
+            logging.info('There was no internet connection')
+            time.sleep(2)
 
 
 if __name__ == '__main__':

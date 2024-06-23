@@ -13,13 +13,11 @@ def get_nasa_links(token, count):
     response.raise_for_status()
     response_data = response.json()
     nasa_links = []
-    if count:
-        for row in response_data:
-            if row['media_type'] == 'image':
-                nasa_links.append(row['url'])
-    else:
-        if response_data['media_type'] == 'image':
-            nasa_links.append(response_data['url'])
+    if not count:
+        response_data = [response_data]
+    for row in response_data:
+        if row['media_type'] == 'image':
+            nasa_links.append(row['url'])
     return nasa_links
 
 

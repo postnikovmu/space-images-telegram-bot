@@ -44,11 +44,10 @@ def main():
 
     files = get_files_list('images')
     if files:
-        send_all_files(bot, chat_id, files, period)
         while True:
             try:
-                random.shuffle(files)
                 send_all_files(bot, chat_id, files, period)
+                random.shuffle(files)
             except tg_error.NetworkError as e:
                 logging.info('There was no internet connection')
                 time.sleep(2)

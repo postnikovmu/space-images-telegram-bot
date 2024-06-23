@@ -6,7 +6,7 @@ import os
 from dotenv import load_dotenv
 
 
-def download_image(url, file_name, dir_name, extension='.jpg', token=None):
+def download_image(url, file_name, dir_name, extension='.jpg', token=None, params=None):
     full_file_name = file_name + extension
     Path(dir_name).mkdir(parents=True, exist_ok=True)
     file_path = os.path.join(dir_name, full_file_name)
@@ -14,9 +14,7 @@ def download_image(url, file_name, dir_name, extension='.jpg', token=None):
         params = {
             'api_key': token,
         }
-        response = requests.get(url, params=params)
-    else:
-        response = requests.get(url)
+    response = requests.get(url, params=params)
     response.raise_for_status()
     with open(file_path, 'wb') as file:
         file.write(response.content)

@@ -14,7 +14,6 @@ def fetch_spacex_last_launch(launch_id='latest'):
     for link_number, link in enumerate(spacex_links):
         file_name = f'spacex_image_{str(link_number)}'
         download_image(link, file_name, 'images', '.jpg')
-        print(link_number, link)
 
 
 def main():

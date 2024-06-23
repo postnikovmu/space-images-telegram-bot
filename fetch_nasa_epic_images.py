@@ -29,7 +29,6 @@ def fetch_nasa_epic_images(token, date):
     for link_number, link in enumerate(nasa_links):
         file_name = f'nasa_epic_image_{str(link_number)}'
         download_image(link, file_name, 'images', '.png', token=token)
-        print(link_number, link)
 
 
 def main():

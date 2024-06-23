@@ -28,7 +28,6 @@ def fetch_nasa_images(token, count):
     for link_number, link in enumerate(nasa_links):
         file_name = f'nasa_image_{str(link_number)}'
         download_image(link, file_name, 'images', get_link_image_extension(link))
-        print(link_number, link)
 
 
 def main():
